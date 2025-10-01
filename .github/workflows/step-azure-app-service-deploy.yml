@@ -29,7 +29,15 @@ jobs:
         with:
           name: github-actions-artifact
           path: final_artifacts/
-          
+
+      - name: Run Bicep
+        run: |
+          az deployment group create \
+            --name ${{ inputs.env }}-deployment-${{ github.run_number }} \
+            --template-file TAYYAB-BUKC/github-actions-dotnet/infrastructure/main.bicep@main \
+            --resource-group ${{ inputs.Resource_Group_Name }} \
+            --verbose
+      
       # Deploy to Azure Web apps
       - name: 'Deploy to Azure App Service'
         uses: azure/webapps-deploy@v2
