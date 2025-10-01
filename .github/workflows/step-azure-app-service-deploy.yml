@@ -36,10 +36,11 @@ jobs:
         run: |
           az deployment group create \
             --name ${{ inputs.env }}-deployment-${{ github.run_number }} \
-            --template-file TAYYAB-BUKC/github-actions-dotnet/src/GitHubActionsDotNet.Api/Infrastructure/main.bicep@main \            
+            --template-file TAYYAB-BUKC/github-actions-dotnet/src/GitHubActionsDotNet.Api/Infrastructure/main.bicep@main \
             --parameters TAYYAB-BUKC/github-actions-dotnet/src/GitHubActionsDotNet.Api/Infrastructure/Environments/${{ inputs.env }}.bicepparam@main \
-            --resource-group/-g ${{ inputs.Resource_Group_Name }} \
+            --resource-group ${{ inputs.Resource_Group_Name }} \
             --verbose
+
       
       # Deploy to Azure Web apps
       - name: 'Deploy to Azure App Service'
