@@ -36,8 +36,8 @@ jobs:
         run: |
           az deployment group create \
             --name ${{ inputs.env }}-deployment-${{ github.run_number }} \
-            --template-file TAYYAB-BUKC/github-actions-dotnet/src/GitHubActionsDotNet.Api/Infrastructure/main.bicep@main \
-            --parameters TAYYAB-BUKC/github-actions-dotnet/src/GitHubActionsDotNet.Api/Infrastructure/Environments/${{ inputs.env }}.bicepparam@main \
+            --template-file TAYYAB-BUKC/github-actions-dotnet/src/GitHubActionsDotNet.Api/Infrastructure/main.bicep \
+            --parameters TAYYAB-BUKC/github-actions-dotnet/src/GitHubActionsDotNet.Api/Infrastructure/Environments/${{ inputs.env }}.bicepparam \
             --resource-group ${{ inputs.Resource_Group_Name }} \
             --verbose
 
