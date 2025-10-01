@@ -6,7 +6,10 @@ on:
       env:
         required: true
         type: string
-
+      Resource_Group_Name:
+        required: true
+        type: string
+      
 jobs:
   Deployment:
     name: Deploy ${{ inputs.env }}
@@ -32,4 +35,10 @@ jobs:
         uses: azure/webapps-deploy@v2
         with: 
           app-name: ${{ vars.APP_NAME }} # Replace with your app name
+          slot-name: slot
           package: final_artifacts/
+      
+      - name: 'Slots Swapping'
+        run: |
+          az webapp deployment slot swap -g ${{ inputs.Resource_Group_Name }} -n ${{ vars.APP_NAME }} --slot slot --target-slot production --verbose 
+        
