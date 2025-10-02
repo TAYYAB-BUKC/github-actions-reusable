@@ -23,6 +23,14 @@ jobs:
           repository: TAYYAB-BUKC/github-actions-dotnet
           token: ${{ secrets.GITHUB_TOKEN }}
           path: ChildRepoContent
+
+      - name: Install stable Azure CLI
+        run: |
+          sudo apt-get remove -y azure-cli || true
+          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+          # pin if needed (uncomment below if bug persists)
+          # sudo apt-get install -y azure-cli=2.64.0-1~focal
+          az version
           
       - name: Azure login
         uses: azure/login@v2
@@ -37,6 +45,15 @@ jobs:
           name: github-actions-artifact
           path: final_artifacts/
 
+      - name: Validate Bicep
+        run: |
+          az deployment group validate \
+            --resource-group ${{ inputs.Resource_Group_Name }} \
+            --template-file ChildRepoContent/src/GitHubActionsDotNet.Api/Infrastructure/main.bicep \
+            --parameters ChildRepoContent/src/GitHubActionsDotNet.Api/Infrastructure/Environments/${{ inputs.env }}.bicepparam \
+            --only-show-errors \
+            --output json
+            
       - name: Run Bicep
         run: |
           az deployment group create \
