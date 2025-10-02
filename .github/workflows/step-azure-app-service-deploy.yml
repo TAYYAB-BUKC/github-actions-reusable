@@ -45,7 +45,8 @@ jobs:
             --template-file main.bicep \
             --parameters Environments/${{ inputs.env }}.bicepparam \
             --resource-group ${{ inputs.Resource_Group_Name }} \
-            --verbose
+            --only-show-errors \
+            --output json
             
       # Deploy to Azure Web apps
       - name: 'Deploy to Azure App Service'
