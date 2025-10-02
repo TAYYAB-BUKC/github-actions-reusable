@@ -17,8 +17,13 @@ jobs:
     environment: ${{ inputs.env }}
 
     steps:
-      - uses: actions/checkout@v4
-      
+      - name: Checkout Child Repo
+        uses: actions/checkout@v4
+        with:
+          repository: TAYYAB-BUKC/github-actions-dotnet
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: ChildRepoContent
+          
       - name: Azure login
         uses: azure/login@v2
         with:
@@ -34,14 +39,14 @@ jobs:
 
       - name: Run Bicep
         run: |
+          cd ChildRepoContent/src/GitHubActionsDotNet.Api/Infrastructure
           az deployment group create \
             --name ${{ inputs.env }}-deployment-${{ github.run_number }} \
-            --template-file TAYYAB-BUKC/github-actions-dotnet/src/GitHubActionsDotNet.Api/Infrastructure/main.bicep \
-            --parameters TAYYAB-BUKC/github-actions-dotnet/src/GitHubActionsDotNet.Api/Infrastructure/Environments/${{ inputs.env }}.bicepparam \
+            --template-file main.bicep \
+            --parameters Environments/${{ inputs.env }}.bicepparam \
             --resource-group ${{ inputs.Resource_Group_Name }} \
             --verbose
-
-      
+            
       # Deploy to Azure Web apps
       - name: 'Deploy to Azure App Service'
         uses: azure/webapps-deploy@v2
