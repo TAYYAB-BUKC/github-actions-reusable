@@ -39,14 +39,14 @@ jobs:
 
       - name: Run Bicep
         run: |
-          cd ChildRepoContent/src/GitHubActionsDotNet.Api/Infrastructure
           az deployment group create \
             --name ${{ inputs.env }}-deployment-${{ github.run_number }} \
-            --template-file main.bicep \
-            --parameters Environments/${{ inputs.env }}.bicepparam \
+            --template-file ChildRepoContent/src/GitHubActionsDotNet.Api/Infrastructure/main.bicep \
+            --parameters ChildRepoContent/src/GitHubActionsDotNet.Api/Infrastructure/Environments/${{ inputs.env }}.bicepparam \
             --resource-group ${{ inputs.Resource_Group_Name }} \
             --only-show-errors \
             --output json
+
             
       # Deploy to Azure Web apps
       - name: 'Deploy to Azure App Service'
