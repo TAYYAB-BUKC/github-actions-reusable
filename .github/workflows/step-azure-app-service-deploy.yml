@@ -45,24 +45,24 @@ jobs:
           name: github-actions-artifact
           path: final_artifacts/
 
-      - name: Validate Bicep
-        run: |
-          az deployment group validate \
-            --resource-group ${{ inputs.Resource_Group_Name }} \
-            --template-file ChildRepoContent/src/GitHubActionsDotNet.Api/Infrastructure/main.bicep \
-            --parameters ChildRepoContent/src/GitHubActionsDotNet.Api/Infrastructure/Environments/${{ inputs.env }}.bicepparam \
-            --only-show-errors \
-            --output json
+      # - name: Validate Bicep
+      #   run: |
+      #     az deployment group validate \
+      #       --resource-group ${{ inputs.Resource_Group_Name }} \
+      #       --template-file ChildRepoContent/src/GitHubActionsDotNet.Api/Infrastructure/main.bicep \
+      #       --parameters ChildRepoContent/src/GitHubActionsDotNet.Api/Infrastructure/Environments/${{ inputs.env }}.bicepparam \
+      #       --only-show-errors \
+      #       --output json
             
-      - name: Run Bicep
-        run: |
-          az deployment group create \
-            --name ${{ inputs.env }}-deployment-${{ github.run_number }} \
-            --template-file ChildRepoContent/src/GitHubActionsDotNet.Api/Infrastructure/main.bicep \
-            --parameters ChildRepoContent/src/GitHubActionsDotNet.Api/Infrastructure/Environments/${{ inputs.env }}.bicepparam \
-            --resource-group ${{ inputs.Resource_Group_Name }} \
-            --only-show-errors \
-            --output json
+      # - name: Run Bicep
+      #   run: |
+      #     az deployment group create \
+      #       --name ${{ inputs.env }}-deployment-${{ github.run_number }} \
+      #       --template-file ChildRepoContent/src/GitHubActionsDotNet.Api/Infrastructure/main.bicep \
+      #       --parameters ChildRepoContent/src/GitHubActionsDotNet.Api/Infrastructure/Environments/${{ inputs.env }}.bicepparam \
+      #       --resource-group ${{ inputs.Resource_Group_Name }} \
+      #       --only-show-errors \
+      #       --output json
 
             
       # Deploy to Azure Web apps
